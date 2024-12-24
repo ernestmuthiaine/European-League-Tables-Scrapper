@@ -204,7 +204,7 @@ def update_standings_table(league, season):
         team_details = []
         for i in range(9):
             team_details.append(standings_table2[j].find_all('td')[i].get_text())
-        df = df.append(pd.DataFrame(team_details).T)
+        df = pd.concat([df, pd.DataFrame(team_details).T])
         team_list.append(team_details)
 
     df.columns = headers_list
@@ -256,7 +256,8 @@ def update_topscorers(league, season):
         player_dets = []
         for j in k:
             player_dets.append(j.get_text().replace('\xa0', ' '))
-        df_scorers = df_scorers.append(pd.DataFrame(player_dets).T)
+        # df_scorers = df_scorers.append(pd.DataFrame(player_dets).T)
+        df_scorers = pd.concat([df_scorers, pd.DataFrame(player_dets).T])
 
     df_scorers.columns = ['Rank', 'Player_Team', 'Goals']
     df_scorers['Player'] = df_scorers['Player_Team'].apply(lambda x: x.split('•')[0])
